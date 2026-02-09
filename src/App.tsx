@@ -12,13 +12,12 @@ import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    setLoading(true);
     getTodos()
       .then(setTodos)
       .finally(() => setLoading(false));
@@ -64,8 +63,9 @@ export const App: React.FC = () => {
             </div>
 
             <div className="block">
-              {loading && <Loader />}
-              {!loading && (
+              {loading ? (
+                <Loader />
+              ) : (
                 <TodoList
                   todos={filteredTodos}
                   onSelectTodo={handleSelectTodo}
